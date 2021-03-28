@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class BasicGeneticAlgorithm:
     '''
@@ -38,7 +39,6 @@ class BasicGeneticAlgorithm:
 
         self._a = a
         self._b = b
-
         self._f = f
         self._prec = prec
 
@@ -222,7 +222,7 @@ class BasicGeneticAlgorithm:
         
     ## Main entry point
 
-    def solve(self, verbose_mode=False):
+    def solve(self, verbose_mode=False, graphing_mode=False):
         # find bitword length
         self._n = self.__find_size_of_individual()
 
@@ -247,8 +247,8 @@ class BasicGeneticAlgorithm:
             popFitnessVal, bestIndiv = self.__population_fitness(pop)
             popFitnessStack.append(popFitnessVal)
 
-            if verbose_mode == True:
-                print(f'Iteration #{t}: best fitness {popFitnessVal} at x = {bestIndiv}')
+            if verbose_mode:
+                print(f'Generation #{t}: best fitness {popFitnessVal} at x = {bestIndiv}')
 
             if t > 1:
                 # if the best fitness difference is small, increment the unchanged iteration counter,
@@ -263,6 +263,10 @@ class BasicGeneticAlgorithm:
                 break
 
             t += 1
+
+        if graphing_mode:
+            plt.plot(popFitnessStack)
+            plt.show()
 
         # return best fitness of final population
         res, x = self.__population_fitness(pop)
