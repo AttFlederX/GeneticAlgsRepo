@@ -9,10 +9,7 @@ solver = RealNumberGeneticAlgorithm(
     a=-1,
     b=2,
     f=lambda x: x * np.sin(10 * np.pi * x) + 1,
-    prec=6,
-
-    n_p=500,
-    p_c=0.25
+    prec=6
 )
 
 start = datetime.datetime.now()
@@ -89,7 +86,7 @@ for p_c in P_c:
         f=lambda x: x * np.sin(10 * np.pi * x) + 1,
         prec=6,
         
-        n_t=n_t
+        p_c=p_c
     )
 
     start = datetime.datetime.now()

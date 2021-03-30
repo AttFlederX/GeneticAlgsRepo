@@ -14,7 +14,7 @@ class BasicGeneticAlgorithm:
             n_t - size of tournament,
             p_m - probability of mutation,
             p_c - probability of crossover,
-            t_max_i - maximum number of unchanging generations
+            t_max_i - maximum number of unchanging generations,
             t_max - maximum number of total generations
     '''
     def __init__(self,
@@ -236,6 +236,10 @@ class BasicGeneticAlgorithm:
         # fitness stack
         popFitnessStack = []
 
+        # keep track of the best result
+        bestFitness = np.infty
+        bestFitnessIndiv = None
+
         # begin iterating
         while t < self._t_max:
             # perform generational changes
@@ -247,13 +251,18 @@ class BasicGeneticAlgorithm:
             popFitnessVal, bestIndiv = self.__population_fitness(pop)
             popFitnessStack.append(popFitnessVal)
 
+            # update best fitness
+            if popFitnessVal < bestFitness:
+                bestFitness = popFitnessVal
+                bestFitnessIndiv = bestIndiv
+
             if verbose_mode:
                 print(f'Generation #{t}: best fitness {popFitnessVal} at x = {bestIndiv}')
 
             if t > 1:
                 # if the best fitness difference is small, increment the unchanged iteration counter,
                 # else, reset it
-                if abs(popFitnessStack[t] - popFitnessStack[t - 1] < 10 ** -self._prec):
+                if abs(popFitnessStack[t] - popFitnessStack[t - 1]) < 10 ** -self._prec:
                     t_i += 1
                 else:
                     t_i = 0
@@ -269,7 +278,6 @@ class BasicGeneticAlgorithm:
             plt.show()
 
         # return best fitness of final population
-        res, x = self.__population_fitness(pop)
-        return res, x, t
+        return bestFitness, bestFitnessIndiv, t
 
 

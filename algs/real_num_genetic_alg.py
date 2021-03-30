@@ -13,11 +13,11 @@ class RealNumberGeneticAlgorithm:
 
             n_p - size of population,
             n_t - size of tournament,
-            p_e - percentage for the elitism model
+            p_e - percentage for the elitism model,
             p_m - probability of mutation,
             p_c - probability of crossover,
-            t_max_i - maximum number of unchanging generations
-            t_max - maximum number of total generations
+            t_max_i - maximum number of unchanging generations,
+            t_max - maximum number of total generations,
             b_dep - degree of dependency on # of iteration
     '''
     def __init__(self,
@@ -39,8 +39,9 @@ class RealNumberGeneticAlgorithm:
         assert prec > 1, 'Invalid precision'
 
         assert n_t >= 2 and n_p >= n_t, 'Invalid population params' 
-        assert 0 <= p_m <= 1 and 0 <= p_c <= 1, 'Invalid probability params' 
+        assert 0 <= p_e <= 1 and 0 <= p_m <= 1 and 0 <= p_c <= 1, 'Invalid probability params' 
         assert t_max_i > 2 and t_max >= t_max_i, 'Invalid stopping conditions' 
+        assert b_dep > 1, 'Invalid degree of dependency'
 
         self._a = a
         self._b = b
@@ -96,7 +97,7 @@ class RealNumberGeneticAlgorithm:
 
     def __select(self, pop):
         '''
-            Perform a population selection using the elitism & tournament method
+            Perform a population selection using the elitism & tournament methods
 
                 - Add top p_e percent of individuals straight to the new population
                 - Select n_t individuals from the population
@@ -105,6 +106,7 @@ class RealNumberGeneticAlgorithm:
 
                 (individuals are not required to be unique)
         '''
+        # elitism model
         selectedPop = list(pop)
         selectedPop.sort(key=lambda v: self.__fitness(v))
         selectedPop = selectedPop[:int(self._n_p * self._p_e)]
@@ -211,6 +213,10 @@ class RealNumberGeneticAlgorithm:
         # fitness stack
         popFitnessStack = []
 
+        # keep track of the best result
+        bestFitness = np.infty
+        bestFitnessIndiv = None
+        
         # begin iterating
         while t < self._t_max:
             # perform generational changes
@@ -222,13 +228,18 @@ class RealNumberGeneticAlgorithm:
             popFitnessVal, bestIndiv = self.__population_fitness(pop)
             popFitnessStack.append(popFitnessVal)
 
+            # update best fitness
+            if popFitnessVal < bestFitness:
+                bestFitness = popFitnessVal
+                bestFitnessIndiv = bestIndiv
+
             if verbose_mode:
                 print(f'Generation #{t}: best fitness {popFitnessVal} at x = {bestIndiv}')
 
             if t > 1:
                 # if the best fitness difference is small, increment the unchanged iteration counter,
                 # else, reset it
-                if abs(popFitnessStack[t] - popFitnessStack[t - 1] < 10 ** -self._prec):
+                if abs(popFitnessStack[t] - popFitnessStack[t - 1]) < 10 ** -self._prec:
                     t_i += 1
                 else:
                     t_i = 0
@@ -244,7 +255,6 @@ class RealNumberGeneticAlgorithm:
             plt.show()
 
         # return best fitness of final population
-        res, x = self.__population_fitness(pop)
-        return res, x, t
+        return bestFitness, bestFitnessIndiv, t
 
 
