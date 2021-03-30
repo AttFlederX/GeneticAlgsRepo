@@ -27,7 +27,7 @@ print('\nReal number, n_p test')
 N_p = [10, 20, 50, 100, 200, 500, 1000]
 
 for n_p in N_p:
-    print(f'\n\tn_p = {n_p}: \n')
+    print(f'\n\tn_p = {n_p}:')
     solver = RealNumberGeneticAlgorithm(
         a=-1,
         b=2,
@@ -53,7 +53,7 @@ print('\nReal number, n_t test')
 N_t = [2, 3, 4, 5, 6]
 
 for n_t in N_t:
-    print(f'\n\tn_t = {n_t}: \n')
+    print(f'\n\tn_t = {n_t}:')
     solver = RealNumberGeneticAlgorithm(
         a=-1,
         b=2,
@@ -79,7 +79,7 @@ print('\nReal number, p_c test')
 P_c = [1, 0.9, 0.8, 0.5, 0.1]
 
 for p_c in P_c:
-    print(f'\n\tp_c = {p_c}: \n')
+    print(f'\n\tp_c = {p_c}:')
     solver = RealNumberGeneticAlgorithm(
         a=-1,
         b=2,

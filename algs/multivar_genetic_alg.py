@@ -183,13 +183,14 @@ class MultiVariableGeneticAlgorithm:
 
         # roulette method
 
+        # save total zero-adjusted fitnesses
+        zeroAdjustedFitnesses = list(map(lambda v: self.__zero_adjusted_fitness(v), sortedPop))
         # calculate the total fitness of the population
         # since less is better, sum the reciprocals instead of actual values (and hope that fitness is not 0)
-        totalFitness = sum(list(map(lambda v: 1/self.__zero_adjusted_fitness(v), pop)))
+        totalFitness = sum(list(map(lambda zaf: (1/zaf), zeroAdjustedFitnesses)))
 
         # get an array of ratios of fitness values to total fitness
-        fitnessProbabilities = list(map(lambda v: (1/self.__zero_adjusted_fitness(v)) / totalFitness, pop))
-        fitnessProbabilities.sort()
+        fitnessProbabilities = list(map(lambda zaf: (1/zaf) / totalFitness, zeroAdjustedFitnesses))
 
         # build an array of probability ranges
         fitnessRanges = []

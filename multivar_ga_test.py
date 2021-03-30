@@ -30,7 +30,7 @@ print('\nMulti-variable GA, n_p test')
 N_p = [10, 20, 50, 100, 200, 500, 1000]
 
 for n_p in N_p:
-    print(f'\n\tn_p = {n_p}: \n')
+    print(f'\n\tn_p = {n_p}:')
     solver = MultiVariableGeneticAlgorithm(
         a=[0, -2],
         b=[7, 6],
@@ -59,7 +59,7 @@ print('\nMulti-variable GA, p_e test')
 P_e = [0.1, 0.2, 0.3, 0.4, 0.5]
 
 for p_e in P_e:
-    print(f'\n\tp_e = {p_e}: \n')
+    print(f'\n\tp_e = {p_e}:')
     solver = MultiVariableGeneticAlgorithm(
         a=[0, -2],
         b=[7, 6],
@@ -88,7 +88,7 @@ print('\nMulti-variable GA, r test')
 R = [0.05, 0.1, 0.2, 0.3, 0.45]
 
 for r in R:
-    print(f'\n\tr = {r}: \n')
+    print(f'\n\tr = {r}:')
     solver = MultiVariableGeneticAlgorithm(
         a=[0, -2],
         b=[7, 6],
