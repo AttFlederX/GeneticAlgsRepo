@@ -28,7 +28,7 @@ class MultiVariableGeneticAlgorithm:
 
                 n_p = 100,
                 p_e = 0.1,
-                p_m = 0.01,
+                p_m = 0.05,
                 r = 0.2,
                 t_max_i = 10,
                 t_max = 1000):

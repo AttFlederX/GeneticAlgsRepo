@@ -7,7 +7,7 @@ import datetime
 print('\nMulti-variable GA, default test')
 solver = MultiVariableGeneticAlgorithm(
     a=[0, -2],
-    b=[7, 6],
+    b=[7, 8],
     f=[
         lambda x: -13 + x[0] + ((5 - x[1])*x[1] - 2) * x[1],
         lambda x: -29 + x[0] + ((x[1] + 1)*x[1] - 14) * x[1],
