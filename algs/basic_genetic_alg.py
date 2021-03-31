@@ -6,7 +6,7 @@ class BasicGeneticAlgorithm:
         Basic implementation of a genetic algorithm for finding the local minimum of a function
 
         Problem parameters:
-            a, b: double             - interval on which to find the local minimum,
+            a, b: double             - domain on which to find the local minimum,
             f: (double) -> double    - function to be minimized,
             prec: uint               - precision in positive powers of 10,
 
@@ -30,7 +30,7 @@ class BasicGeneticAlgorithm:
                 t_max_i = 10,
                 t_max = 1000):
 
-        assert a < b, 'Invalid interval'
+        assert a < b, 'Invalid domain'
         assert prec > 1, 'Invalid precision'
 
         assert n_t >= 2 and n_p >= n_t, 'Invalid population params' 
@@ -58,7 +58,7 @@ class BasicGeneticAlgorithm:
     def __find_size_of_individual(self):
         '''
             Finds the length of the bit word required for the given precision, 
-            by bitshifting the overall number of points on an interval
+            by bitshifting the overall number of points on a domain
         '''
         numOfPoints = int((self._b - self._a) * (10 ** self._prec))
         numOfBits = 0
@@ -87,7 +87,7 @@ class BasicGeneticAlgorithm:
 
     def __binary_to_digit(self, v):
         '''
-            Converts the bitword into a position within the interval
+            Converts the bitword into a position within the domain
         '''
         vInt = int(v, 2) # convert the bitword into a decimal integer
         return self._a + ( ((self._b - self._a) / (2**self._n - 1)) * vInt )

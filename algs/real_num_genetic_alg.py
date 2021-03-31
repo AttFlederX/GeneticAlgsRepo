@@ -7,7 +7,7 @@ class RealNumberGeneticAlgorithm:
         using real number individuals
 
         Problem parameters:
-            a, b: double             - interval on which to find the local minimum,
+            a, b: double             - domain on which to find the local minimum,
             f: (double) -> double    - function to be minimized,
             prec: uint               - precision in positive powers of 10,
 
@@ -35,7 +35,7 @@ class RealNumberGeneticAlgorithm:
                 t_max = 1000,
                 b_dep = 5):
 
-        assert a < b, 'Invalid interval'
+        assert a < b, 'Invalid domain'
         assert prec > 1, 'Invalid precision'
 
         assert n_t >= 2 and n_p >= n_t, 'Invalid population params' 
@@ -67,7 +67,7 @@ class RealNumberGeneticAlgorithm:
         pop = list()
 
         for i in range(self._n_p):
-            # generate a real number within the interval
+            # generate a real number within the domain
             newIndiv = self._a + (self._b - self._a) * np.random.random()
 
             pop.append(newIndiv)
@@ -148,7 +148,7 @@ class RealNumberGeneticAlgorithm:
             if np.random.random() <= self._p_m:
                 # this whole process is meant to limit how much mutation actually modifies the individual
                 # as the number of iterations increases
-                # if we were to just pick a random number within the interval, the individual could stray away from
+                # if we were to just pick a random number within the domain, the individual could stray away from
                 # the solution in late generations of the algorithm, when it is obviously unwanted
                 delta = np.random.random()
                 r_t = 1 - (delta ** ((1 - t/self._t_max) ** self._b_dep))

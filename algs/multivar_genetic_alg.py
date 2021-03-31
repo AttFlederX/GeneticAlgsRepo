@@ -9,7 +9,7 @@ class MultiVariableGeneticAlgorithm:
         (or any equations, really)
 
         Problem parameters:
-            a, b: double[]              - intervals on which to find the solution,
+            a, b: double[]              - domains on which to find the solution,
             f: ((double[]) -> double)[] - system of equations,
             prec: uint                  - precision in positive powers of 10,
 
@@ -53,7 +53,7 @@ class MultiVariableGeneticAlgorithm:
 
         # system dimension
         self._dim = len(f)
-        assert len(a) == self._dim and len(b) == self._dim, 'Invalid num of intervals'
+        assert len(a) == self._dim and len(b) == self._dim, 'Invalid num of domains'
 
         # sizes of individuals
         self._n = []
@@ -67,7 +67,7 @@ class MultiVariableGeneticAlgorithm:
     def __find_size_of_individual(self, i):
         '''
             Finds the length of the bit word required for the given precision, 
-            by bitshifting the overall number of points on an interval
+            by bitshifting the overall number of points on a domain
         '''
         numOfPoints = int((self._b[i] - self._a[i]) * (10 ** self._prec))
         numOfBits = 0
@@ -101,7 +101,7 @@ class MultiVariableGeneticAlgorithm:
 
     def __binary_to_digit(self, v, i):
         '''
-            Converts a bitword into a position within the interval
+            Converts a bitword into a position within the domain
         '''
         vInt = int(v, 2) # convert the bitword into a decimal integer
         return self._a[i] + ( ((self._b[i] - self._a[i]) / (2**self._n[i] - 1)) * vInt )
@@ -163,7 +163,7 @@ class MultiVariableGeneticAlgorithm:
 
                 - Add top p_e percent of individuals straight to the new population
                 - Get an array of ratios of individual reciprocal fitnesses to total reciprocal fitness
-                - Build an array of probability intervals corresponding to each individual's fitness
+                - Build an array of probability domains corresponding to each individual's fitness
                 - Pick a random number & find the probability range which it falls into
                 (the better the fitness, the larger its range, hence the random number is more likely to fall into it)
                 - Add the corresponding individual to the new population
@@ -302,7 +302,7 @@ class MultiVariableGeneticAlgorithm:
     def solve(self, verbose_mode=False, graphing_mode=False):
         # find bitword length
         for i in range(self._dim):
-            assert self._a[i] < self._b[i], 'Invalid interval'
+            assert self._a[i] < self._b[i], 'Invalid domain'
             self._n.append(self.__find_size_of_individual(i))
 
             self._m += self._n[i]
